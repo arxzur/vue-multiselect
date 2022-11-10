@@ -4,7 +4,7 @@ import MultiSelect from "./components/MultiSelect.vue"
 </script>
 
 <template>
-  <div>
+  <div class="p-10">
     <MultiSelect />
   </div>
 </template>
