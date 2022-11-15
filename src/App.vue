@@ -6,7 +6,7 @@ const options = ["test 1", "test 2", "test 3", "test 4", "test 5"]
 </script>
 
 <template>
-  <div class="p-10 w-[40em]">
+  <div class="p-10">
     <MultiSelect :options="options" />
   </div>
 </template>
