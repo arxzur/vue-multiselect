@@ -21,6 +21,7 @@ function toggleMenu() {
 
 <template>
   <div
+    @click="toggleMenu"
     class="border border-gray-300 w-80"
   >
     <input 
@@ -30,7 +31,6 @@ function toggleMenu() {
     >
     <span 
       class="bg-red-500 w-6 float-right"
-      @click="toggleMenu"
     >
         <font-awesome-icon icon="fa-solid fa-angle-down" />
     </span>
