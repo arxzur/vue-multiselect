@@ -35,9 +35,11 @@ function toggleMenu() {
         <font-awesome-icon icon="fa-solid fa-angle-down" />
     </span>
   </div>
-  <ul v-if="isMenuActive">
-    <li v-for="o in options">
-      {{o}}
-    </li>
-  </ul>
+  <div class="scrollbar-thin">
+    <ul v-if="isMenuActive">
+      <li v-for="o in options">
+        {{o}}
+      </li>
+    </ul>
+  </div>
 </template>
