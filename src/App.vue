@@ -2,17 +2,21 @@
 import MultiSelect from "./components/MultiSelect.vue"
 
 const options = ["test 1", "test 2", "test 3", "test 4", "test 5"]
+const selected: any[] = ["test 1", "test 2", "test 3", "test 4", "test 5"]
 
+function test(n: any) {
+  console.log(n)
+}
 </script>
 
 <template>
-  <div class="p-10">
-    <MultiSelect :options="options" />
+  <div class="p-10 w-96">
+    <MultiSelect :options="options" :selected="selected" @update="test"/>
   </div>
 </template>
 
-// emit event on select
-// filter options
+// display selected options
 // remove selected option
+// filter options
 // click outside
 // scroll
