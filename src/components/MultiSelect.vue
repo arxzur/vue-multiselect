@@ -27,6 +27,11 @@ function selectOption(item: any) {
   props.selected.push(item)
   emits("update", props.selected)
 }
+
+function removeOption(item: any) {
+  props.selected.splice(props.selected.findIndex((el) => el === item), 1)
+  emits("update", props.selected)
+}
 </script>
 
 <template>
@@ -40,10 +45,14 @@ function selectOption(item: any) {
         class="bg-emerald-500 text-white text-xs p-1 ml-2 mt-2 rounded-md inline-block"
       >
         {{s}}
-        <font-awesome-icon 
+        <span
+          @click="removeOption(s)"
+        >
+          <font-awesome-icon 
           :icon="['fa', 'xmark']" 
           class="ml-1 text-gray-600 text-[0.6rem] pl-1 pr-1"
-        />
+          />
+        </span>
       </span>
     </div>
     <input 
