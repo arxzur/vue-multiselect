@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, onMounted, toRaw } from "vue"
 
 const props = withDefaults(defineProps<{
   options: any[]
@@ -16,22 +16,26 @@ const emits = defineEmits({
 })
 
 const input = ref("")
-
 const isMenuActive = ref(false)
+const selectedOptions = ref()
 
 function toggleMenu() {
   isMenuActive.value = ! isMenuActive.value
 }
 
 function selectOption(item: any) {
-  props.selected.push(item)
-  emits("update", props.selected)
+  selectedOptions.value.push(item)
+  emits("update", toRaw(selectedOptions.value))
 }
 
 function removeOption(item: any) {
-  props.selected.splice(props.selected.findIndex((el) => el === item), 1)
-  emits("update", props.selected)
+  selectedOptions.value.splice(selectedOptions.value.findIndex((el: any) => el === item), 1)
+  emits("update", toRaw(selectedOptions.value))
 }
+
+onMounted(() => {
+  selectedOptions.value = props.selected
+})
 </script>
 
 <template>
@@ -39,14 +43,15 @@ function removeOption(item: any) {
     @click="toggleMenu"
     class="border border-gray-500 w-full"
   >
-    <div class="pb-2">
+    <div v-if="selectedOptions.length" class="pb-2">
       <span 
-        v-for="s in selected"
+        v-for="s in selectedOptions"
+        :key="s"
         class="bg-emerald-500 text-white text-xs p-1 ml-2 mt-2 rounded-md inline-block"
       >
         {{s}}
         <span
-          @click="removeOption(s)"
+          @click.stop="removeOption(s)"
         >
           <font-awesome-icon 
           :icon="['fa', 'xmark']" 
@@ -73,7 +78,7 @@ function removeOption(item: any) {
     <ul v-if="isMenuActive">
       <li 
         v-for="o in options"
-        @click="selectOption(o)"
+        @click.prevent="selectOption(o)"
       >
         {{o}}
       </li>
