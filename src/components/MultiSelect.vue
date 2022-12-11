@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, toRaw } from "vue"
+import { ref, onMounted, toRaw, computed } from "vue"
 
 const props = withDefaults(defineProps<{
   options: any[]
@@ -19,12 +19,38 @@ const input = ref("")
 const isMenuActive = ref(false)
 const selectedOptions = ref()
 
+const filteredOptions = computed(() => {
+  let temp = []
+  let includes = false
+  for (let o of props.options) {
+    if (selectedOptions.value) {
+      for (let s of selectedOptions.value) {
+        if (o === s) {
+          includes = true
+          break
+        }
+      }
+    }
+    if (!includes) {
+      temp.push(o)
+    }
+    includes = false
+  }
+  return temp.filter((o) => o.toLowerCase().includes(input.value.toLowerCase()))
+})
+
 function toggleMenu() {
   isMenuActive.value = ! isMenuActive.value
 }
 
 function selectOption(item: any) {
   selectedOptions.value.push(item)
+  emits("update", toRaw(selectedOptions.value))
+}
+
+function selectOptionTop() {
+  console.log("test")
+  selectedOptions.value.push(filteredOptions.value[0])
   emits("update", toRaw(selectedOptions.value))
 }
 
@@ -43,10 +69,9 @@ onMounted(() => {
     @click="toggleMenu"
     class="border border-gray-500 w-full"
   >
-    <div v-if="selectedOptions.length" class="pb-2">
+    <div v-if="selectedOptions" class="pb-2">
       <span 
         v-for="s in selectedOptions"
-        :key="s"
         class="bg-emerald-500 text-white text-xs p-1 ml-2 mt-2 rounded-md inline-block"
       >
         {{s}}
@@ -62,6 +87,7 @@ onMounted(() => {
     </div>
     <input 
       type="text" 
+      @keyup.enter="selectOptionTop"
       v-model="input"
       class="border-none shadow-none outline-none bg-blue-500 w-11/12 pl-1"
       :placeholder="placeholder"
@@ -77,7 +103,7 @@ onMounted(() => {
   >
     <ul v-if="isMenuActive">
       <li 
-        v-for="o in options"
+        v-for="o in filteredOptions"
         @click.prevent="selectOption(o)"
       >
         {{o}}

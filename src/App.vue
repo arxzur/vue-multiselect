@@ -3,7 +3,7 @@ import { toRaw } from "vue";
 import MultiSelect from "./components/MultiSelect.vue"
 
 const options = ["test 1", "test 2", "test 3", "test 4", "test 5"]
-const selected: any[] = ["test 1", "test 2", "test 3", "test 4", "test 5"]
+const selected: any[] = ["test 1", "test 2"]
 
 function test(n: any) {
   console.log(n)
@@ -16,8 +16,7 @@ function test(n: any) {
   </div>
 </template>
 
-// display selected options
-// remove selected option
-// filter options
+// search on type
+// select on enter key
 // click outside
-// scroll
+// pretty UI
