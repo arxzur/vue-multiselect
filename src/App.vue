@@ -15,8 +15,3 @@ function test(n: any) {
     <MultiSelect :options="options" :selected="selected" @update="test"/>
   </div>
 </template>
-
-// search on type
-// select on enter key
-// click outside
-// pretty UI

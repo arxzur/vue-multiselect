@@ -39,8 +39,12 @@ const filteredOptions = computed(() => {
   return temp.filter((o) => o.toLowerCase().includes(input.value.toLowerCase()))
 })
 
-function toggleMenu() {
-  isMenuActive.value = ! isMenuActive.value
+function open() {
+  isMenuActive.value = true
+}
+
+function close() {
+  isMenuActive.value = false
 }
 
 function selectOption(item: any) {
@@ -62,52 +66,71 @@ function removeOption(item: any) {
 onMounted(() => {
   selectedOptions.value = props.selected
 })
+
+const vClickOutside = {
+  mounted(el: any, binding: any) {
+    el.clickOutsideEvent = function (event: any) {
+      if (!(el === event.target || el.contains(event.target))) {
+        binding.value(event, el)
+      }
+    }
+    document.body.addEventListener("click", el.clickOutsideEvent)
+  },
+  unmounted(el: any) {
+    document.body.removeEventListener("click", el.clickOutsideEvent)
+  },
+}
 </script>
 
 <template>
   <div
-    @click="toggleMenu"
-    class="border border-gray-500 w-full"
+    v-click-outside="close"
+    @keyup.escape="close"
+    @click="open"
   >
-    <div v-if="selectedOptions" class="pb-2">
-      <span 
-        v-for="s in selectedOptions"
-        class="bg-emerald-500 text-white text-xs p-1 ml-2 mt-2 rounded-md inline-block"
-      >
-        {{s}}
-        <span
-          @click.stop="removeOption(s)"
+    <div
+      class="border border-gray-500 w-full"
+    >
+      <div v-if="selectedOptions" class="pb-2">
+        <span 
+          v-for="s in selectedOptions"
+          class="bg-emerald-500 text-white text-xs p-1 ml-2 mt-2 rounded-md inline-block"
         >
-          <font-awesome-icon 
-          :icon="['fa', 'xmark']" 
-          class="ml-1 text-gray-600 text-[0.6rem] pl-1 pr-1"
-          />
+          {{s}}
+          <span
+            @click.stop="removeOption(s)"
+          >
+            <font-awesome-icon 
+            :icon="['fa', 'xmark']" 
+            class="ml-1 text-gray-600 text-[0.6rem] pl-1 pr-1"
+            />
+          </span>
         </span>
+      </div>
+      <input 
+        type="text" 
+        @keyup.enter="selectOptionTop"
+        v-model="input"
+        class="border-none shadow-none outline-none bg-blue-500 w-11/12 pl-1"
+        :placeholder="placeholder"
+      >
+      <span 
+        class="bg-red-500 w-1/12 inline-block"
+      >
+          <font-awesome-icon :icon="['fa', 'angle-down']"  class="text-xs"/>
       </span>
     </div>
-    <input 
-      type="text" 
-      @keyup.enter="selectOptionTop"
-      v-model="input"
-      class="border-none shadow-none outline-none bg-blue-500 w-11/12 pl-1"
-      :placeholder="placeholder"
+    <div 
+      class="scrollbar-thin max-h-12 overflow-scroll overflow-x-hidden border border-gray-500 pl-1"
     >
-    <span 
-      class="bg-red-500 w-1/12 inline-block"
-    >
-        <font-awesome-icon :icon="['fa', 'angle-down']"  class="text-xs"/>
-    </span>
-  </div>
-  <div 
-    class="scrollbar-thin max-h-12 overflow-scroll overflow-x-hidden border border-gray-500 pl-1"
-  >
-    <ul v-if="isMenuActive">
-      <li 
-        v-for="o in filteredOptions"
-        @click.prevent="selectOption(o)"
-      >
-        {{o}}
-      </li>
-    </ul>
+      <ul v-if="isMenuActive">
+        <li 
+          v-for="o in filteredOptions"
+          @click.prevent="selectOption(o)"
+        >
+          {{o}}
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
