@@ -94,11 +94,12 @@ const vClickOutside = {
       <div v-if="selectedOptions" class="pb-2">
         <span 
           v-for="s in selectedOptions"
-          class="bg-emerald-500 text-white text-xs p-1 ml-2 mt-2 rounded-md inline-block"
+          class="bg-emerald-500 text-white text-sm ml-2 mt-2 rounded-md inline-block"
         >
           {{s}}
           <span
             @click.stop="removeOption(s)"
+            class="bg-emerald-600"
           >
             <font-awesome-icon 
             :icon="['fa', 'xmark']" 
@@ -111,11 +112,11 @@ const vClickOutside = {
         type="text" 
         @keyup.enter="selectOptionTop"
         v-model="input"
-        class="border-none shadow-none outline-none bg-blue-500 w-11/12 pl-1"
+        class="border-none shadow-none outline-none w-11/12 pl-2 text-sm"
         :placeholder="placeholder"
       >
       <span 
-        class="bg-red-500 w-1/12 inline-block"
+        class="w-1/12 inline-block"
       >
           <font-awesome-icon :icon="['fa', 'angle-down']"  class="text-xs"/>
       </span>
