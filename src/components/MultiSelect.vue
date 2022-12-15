@@ -83,6 +83,23 @@ const vClickOutside = {
 </script>
 
 <template>
+
+
+  <div class="m-10 w-40 flex">
+    <div>
+      <div class="bg-blue-500 ">
+        test
+      </div>
+    </div>
+    <div class="flex justify-end content-center items-center w-20 h-20  bg-green-500">
+      <div class="bg-red-500">
+        test
+      </div>
+
+    </div>
+  </div>
+
+
   <div
     v-click-outside="close"
     @keyup.escape="close"
