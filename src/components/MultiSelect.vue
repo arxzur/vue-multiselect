@@ -86,7 +86,7 @@ const vClickOutside = {
 <div v-click-outside="close" @keyup.escape="close" @click="open">
   <div 
     :class="[
-      'flex',
+      'flex justify-between',
       'border',
       'border-gray-300',
       'rounded-tl-md',
@@ -96,7 +96,7 @@ const vClickOutside = {
       {'rounded-br-md': !isMenuActive || filteredOptions.length === 0},
     ]"
   >
-    <div class="w-11/12">
+    <div class="w-10/12">
       <div v-if="(selectedOptions.length > 0)" class="w-full">
         <div 
           v-for="s in selectedOptions" 

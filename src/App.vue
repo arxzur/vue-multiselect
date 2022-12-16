@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import MultiSelect from "./components/MultiSelect.vue"
 
-const options = ["testtest 1", "testtest 2", "testtest 3", "test 4", "test 5", "test 6", "test 7", "test 8"]
+const options = ["testtest 1", "testtest 2", "testtest 3", "test 4", "test 5", "test 6", "test", "test"]
 const selected: any[] = ["testtest 1", "test 2asdasdasdasdasdasd"]
 
 function test(n: any) {
