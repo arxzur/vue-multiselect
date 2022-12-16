@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted, toRaw, computed } from "vue"
+import { ref, onBeforeMount, toRaw, computed } from "vue"
 
 const props = withDefaults(defineProps<{
   options: any[]
   selected: any[]
   placeholder?: string
 }>(), {
-  placeholder: "Select",
+  placeholder: "Search or add a tag",
 })
 
 const emits = defineEmits({
@@ -52,7 +52,7 @@ function selectOption(item: any) {
   emits("update", toRaw(selectedOptions.value))
 }
 
-function selectOptionTop() {
+function selectOptionFiltered() {
   console.log("test")
   selectedOptions.value.push(filteredOptions.value[0])
   emits("update", toRaw(selectedOptions.value))
@@ -63,7 +63,7 @@ function removeOption(item: any) {
   emits("update", toRaw(selectedOptions.value))
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   selectedOptions.value = props.selected
 })
 
@@ -83,72 +83,99 @@ const vClickOutside = {
 </script>
 
 <template>
-
-
-  <div class="m-10 w-40 flex">
-    <div>
-      <div class="bg-blue-500 ">
-        test
+<div v-click-outside="close" @keyup.escape="close" @click="open">
+  <div 
+    :class="[
+      'flex',
+      'border',
+      'border-gray-300',
+      'rounded-tl-md',
+      'rounded-tr-md',
+      'pb-1',
+      {'rounded-bl-md': !isMenuActive || filteredOptions.length === 0},
+      {'rounded-br-md': !isMenuActive || filteredOptions.length === 0},
+    ]"
+  >
+    <div class="w-11/12">
+      <div v-if="(selectedOptions.length > 0)" class="w-full">
+        <div 
+          v-for="s in selectedOptions" 
+          :class="[
+            'bg-emerald-500',
+            'text-white',
+            'text-sm',
+            'ml-1',
+            'rounded-md',
+            'whitespace-nowrap',
+            'inline-block',
+            'h-4',
+            'max-w-[80%]'
+          ]"
+        >
+          <div class="flex h-full">
+            <div class="overflow-hidden inline-block pl-2 pr-2 leading-none">
+              {{s}}
+            </div>
+            <div 
+              class="hover:bg-emerald-600 inline-block rounded-md" 
+              @click.stop="removeOption(s)"
+            >
+              <div 
+                class=" 
+                  flex 
+                  items-center 
+                  h-full 
+                  text-gray-600 
+                  hover:text-white 
+                  pl-1 
+                  pr-1
+                "
+              >
+                <font-awesome-icon :icon="['fa', 'xmark']" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-if="(selectedOptions.length === 0 || isMenuActive)" class="w-full bg-transparent">
+        <input 
+          type="text" 
+          @keyup.enter="selectOptionFiltered"
+          v-model="input"
+          class="border-none shadow-none outline-none w-full pl-2 text-xs h-4 leading-none bg-transparent"
+          :placeholder="placeholder"
+        >
       </div>
     </div>
-    <div class="flex justify-end content-center items-center w-20 h-20  bg-green-500">
-      <div class="bg-red-500">
-        test
+    <div class="w-1/12 text-xs">
+      <div class="flex justify-end content-center items-start pr-2 pt-2">
+        <font-awesome-icon v-if="isMenuActive" :icon="['fa', 'angle-up']" />
+        <font-awesome-icon v-else :icon="['fa', 'angle-down']" />
       </div>
-
     </div>
   </div>
-
-
-  <div
-    v-click-outside="close"
-    @keyup.escape="close"
-    @click="open"
+  <div 
+    v-if="isMenuActive && filteredOptions.length > 0"
+    class="
+      overflow-hidden 
+      border
+      border-gray-300 
+      border-t-0
+      rounded-bl-md
+      rounded-br-md
+    "
   >
-    <div
-      class="border border-gray-500 w-full"
-    >
-      <div v-if="selectedOptions" class="pb-2">
-        <span 
-          v-for="s in selectedOptions"
-          class="bg-emerald-500 text-white text-sm ml-2 mt-2 rounded-md inline-block"
-        >
-          {{s}}
-          <span
-            @click.stop="removeOption(s)"
-            class="bg-emerald-600"
-          >
-            <font-awesome-icon 
-            :icon="['fa', 'xmark']" 
-            class="ml-1 text-gray-600 text-[0.6rem] pl-1 pr-1"
-            />
-          </span>
-        </span>
-      </div>
-      <input 
-        type="text" 
-        @keyup.enter="selectOptionTop"
-        v-model="input"
-        class="border-none shadow-none outline-none w-11/12 pl-2 text-sm"
-        :placeholder="placeholder"
-      >
-      <span 
-        class="w-1/12 inline-block"
-      >
-          <font-awesome-icon :icon="['fa', 'angle-down']"  class="text-xs"/>
-      </span>
-    </div>
-    <div 
-      class="scrollbar-thin max-h-12 overflow-scroll overflow-x-hidden border border-gray-500 pl-1"
-    >
-      <ul v-if="isMenuActive">
+    <div class="overflow-y-auto overflow-x-hidden scrollbar-thin overflow-scroll max-h-24">
+      <ul>
         <li 
-          v-for="o in filteredOptions"
+          v-for="o in filteredOptions" 
           @click.prevent="selectOption(o)"
+          class="hover:bg-emerald-500 pl-2 hover:text-white"
         >
           {{o}}
         </li>
       </ul>
     </div>
   </div>
+</div>
 </template>

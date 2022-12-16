@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { toRaw } from "vue";
 import MultiSelect from "./components/MultiSelect.vue"
 
-const options = ["test 1", "test 2", "test 3", "test 4", "test 5"]
-const selected: any[] = ["test 1", "test 2"]
+const options = ["testtest 1", "testtest 2", "testtest 3", "test 4", "test 5", "test 6", "test 7", "test 8"]
+const selected: any[] = ["testtest 1", "test 2asdasdasdasdasdasd"]
 
 function test(n: any) {
   console.log(n)
@@ -11,7 +10,10 @@ function test(n: any) {
 </script>
 
 <template>
-  <div class="p-10 w-96">
+  <div class="p-10 w-60">
     <MultiSelect :options="options" :selected="selected" @update="test"/>
   </div>
 </template>
+
+// publish
+// add tests
