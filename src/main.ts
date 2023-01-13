@@ -3,6 +3,8 @@ import App from './App.vue'
 
 import './assets/main.css'
 
+import "~/@arxzur/vue-datepicker/dist/index.css"
+
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 

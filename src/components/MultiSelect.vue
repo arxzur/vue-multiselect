@@ -5,8 +5,10 @@ const props = withDefaults(defineProps<{
   options: any[]
   selected: any[]
   placeholder?: string
+  isFlexible?: boolean
 }>(), {
   placeholder: "Search or add a tag",
+  isFlexible: false
 })
 
 const emits = defineEmits({
@@ -83,12 +85,22 @@ const vClickOutside = {
 </script>
 
 <template>
-<div v-click-outside="close" @keyup.escape="close" @click="open">
+<div 
+  :class="[
+    'mt-1',
+    'shadow-sm',
+    'rounded-md',
+    {'w-56': !isFlexible},
+  ]" 
+  v-click-outside="close" 
+  @keyup.escape="close" 
+  @click="open"
+>
   <div 
     :class="[
       'flex justify-between',
       'border',
-      'border-gray-300',
+      'border-gray-200',
       'rounded-tl-md',
       'rounded-tr-md',
       'pb-1',
@@ -101,11 +113,13 @@ const vClickOutside = {
         <div 
           v-for="s in selectedOptions" 
           :class="[
-            'bg-emerald-500',
+            'bg-indigo-600',
             'text-white',
             'text-sm',
+            'font-[650]',
             'ml-1',
             'rounded-md',
+            'shadow-md',
             'whitespace-nowrap',
             'inline-block',
             'h-4',
@@ -117,16 +131,15 @@ const vClickOutside = {
               {{s}}
             </div>
             <div 
-              class="hover:bg-emerald-600 inline-block rounded-md" 
+              class="hover:bg-indigo-800 inline-block rounded-md" 
               @click.stop="removeOption(s)"
             >
               <div 
                 class=" 
                   flex 
                   items-center 
-                  h-full 
-                  text-gray-600 
-                  hover:text-white 
+                  h-full
+                  text-white 
                   pl-1 
                   pr-1
                 "
@@ -149,8 +162,12 @@ const vClickOutside = {
     </div>
     <div class="w-1/12 text-xs">
       <div class="flex justify-end content-center items-start pr-2 pt-2">
-        <font-awesome-icon v-if="isMenuActive" :icon="['fa', 'angle-up']" />
-        <font-awesome-icon v-else :icon="['fa', 'angle-down']" />
+        <svg v-if="isMenuActive" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+        </svg>
+        <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        </svg>
       </div>
     </div>
   </div>
@@ -159,7 +176,7 @@ const vClickOutside = {
     class="
       overflow-hidden 
       border
-      border-gray-300 
+      border-gray-200 
       border-t-0
       rounded-bl-md
       rounded-br-md
@@ -170,7 +187,7 @@ const vClickOutside = {
         <li 
           v-for="o in filteredOptions" 
           @click.prevent="selectOption(o)"
-          class="hover:bg-emerald-500 pl-2 hover:text-white"
+          class="hover:bg-indigo-600 pl-2 hover:text-white"
         >
           {{o}}
         </li>
