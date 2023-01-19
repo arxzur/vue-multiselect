@@ -55,7 +55,6 @@ function selectOption(item: any) {
 }
 
 function selectOptionFiltered() {
-  console.log("test")
   selectedOptions.value.push(filteredOptions.value[0])
   emits("update", toRaw(selectedOptions.value))
 }
@@ -127,11 +126,11 @@ const vClickOutside = {
           ]"
         >
           <div class="flex h-full">
-            <div class="overflow-hidden inline-block pl-2 pr-2 leading-none">
+            <div class="overflow-hidden inline-block pl-1 pr-2 leading-none">
               {{s}}
             </div>
             <div 
-              class="hover:bg-indigo-800 inline-block rounded-md" 
+              class="hover:bg-indigo-800 inline-block rounded-md cursor-pointer" 
               @click.stop="removeOption(s)"
             >
               <div 
@@ -155,7 +154,7 @@ const vClickOutside = {
           type="text" 
           @keyup.enter="selectOptionFiltered"
           v-model="input"
-          class="border-none shadow-none outline-none w-full pl-2 text-xs h-4 leading-none bg-transparent"
+          class="border-none shadow-none outline-none w-full pl-2 text-xs h-4 leading-none bg-transparent focus:outline-none"
           :placeholder="placeholder"
         >
       </div>

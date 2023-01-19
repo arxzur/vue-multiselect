@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MultiSelect from "./components/MultiSelect.vue"
+import VueMultiselect from "./components/VueMultiselect.vue"
 import { VueDatepicker } from "@arxzur/vue-datepicker"
 
 const options = ["word", "long multi word", "verylongsingleword", "another word"]
@@ -11,6 +11,10 @@ function test(n: any) {
 </script>
 
 <template>
-  <VueDatepicker :has-week-numbers="false" />
-  <MultiSelect :options="options" :selected="selected" @update="test"/>
+  <div class="p-10">
+    <VueDatepicker :has-week-numbers="false" />
+    <br>
+    <VueMultiselect :options="options" :selected="selected" @update="test" />
+
+  </div>
 </template>
