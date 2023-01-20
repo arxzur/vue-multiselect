@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import VueMultiselect from '../VueMultiselect.vue'
 
-describe('CalendarMonth', () => {
+describe('VueMultiselect', () => {
   it('renders options when menu opened', async () => {
     const wrapper = mount(VueMultiselect, {
       props: { options: ["test"], selected: [] }
