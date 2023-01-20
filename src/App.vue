@@ -5,16 +5,12 @@ import { VueDatepicker } from "@arxzur/vue-datepicker"
 const options = ["word", "long multi word", "verylongsingleword", "another word"]
 const selected: any[] = ["word", "another word"]
 
-function test(n: any) {
+function printOptions(n: string[]) {
   console.log(n)
 }
 </script>
 
 <template>
-  <div class="p-10">
-    <VueDatepicker :has-week-numbers="false" />
-    <br>
-    <VueMultiselect :options="options" :selected="selected" @update="test" />
-
-  </div>
+  <VueDatepicker :has-week-numbers="false" />
+  <VueMultiselect :options="options" :selected="selected" @update="printOptions" />
 </template>
