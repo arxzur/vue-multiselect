@@ -1,6 +1,6 @@
 # vue-multiselect
 
-A Vue multiselect component. See [demo here](https://codesandbox.io/embed/inspiring-ioana-6ns5vn?fontsize=14&hidenavigation=1&theme=dark/) and [source here](https://gitlab.com/arxzur/vue-multiselect/).
+A Vue multiselect component. See [demo here](https://codesandbox.io/s/confident-oskar-y6q6lo) and [source here](https://gitlab.com/arxzur/vue-multiselect/).
 
 ## Install
 
